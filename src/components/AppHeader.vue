@@ -1,10 +1,12 @@
 <template>
     <div class="navbar bg-base-100">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">
-                <img src="@/assets/logo.png" alt="logo" width="30" height="30">
-                BookBreeze
-            </a>
+            <router-link :to="{ name: 'home' }">
+                <a class="btn btn-ghost normal-case text-xl">
+                    <img src="@/assets/logo.png" alt="logo" width="30" height="30">
+                    BookBreeze
+                </a>
+            </router-link>
         </div>
         <div v-if="showLoginButton" class="flex-none">
             <ul class="menu menu-horizontal px-1">
@@ -20,7 +22,9 @@
             <ul class="menu menu-horizontal px-1">
                 <!-- Icon -->
                 <li class="flex items-center justify-center">
-                    <font-awesome-icon :icon="['fas', 'cart-shopping']" class="w-6 h-6" />
+                    <router-link :to="{ name: 'cart' }">
+                        <font-awesome-icon :icon="['fas', 'cart-shopping']" class="w-6 h-6" />
+                    </router-link>
                 </li>
                 <!-- Avatar -->
                 <li>
