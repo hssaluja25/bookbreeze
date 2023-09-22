@@ -91,36 +91,35 @@
                         </div>
 
                         <!-- Alert box -->
-                        <div v-if="show_alert" class="alert shadow-lg mt-8" :class="bg_color">
-                            <div>
-                                <!-- Info icon -->
+                        <div v-if="show_alert" class="alert shadow-lg mt-3 col-span-3 sm:flex sm:items-center sm:gap-4"
+                            :class="bg_color">
+                            <div style="display: flex; align-items: center">
                                 <svg v-if="bg_color === 'alert-info'" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6">
+                                    viewBox="0 0 24 24" style="display: inline-block"
+                                    class="stroke-current flex-shrink-0 w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <!-- Success icon -->
                                 <svg v-else-if="bg_color === 'alert-success'" xmlns="http://www.w3.org/2000/svg"
-                                    class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                                    class="stroke-current flex-shrink-0 h-6 w-6" style="display: inline-block" fill="none"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <!-- Error icon -->
-                                <svg v-else xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
-                                    fill="none" viewBox="0 0 24 24">
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" style="display: inline-block"
+                                    class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <span>{{ alert_msg }}</span>
+                                <span class="ml-3" style="display: inline-block">{{ alert_msg }}</span>
                             </div>
                             <!-- Retry button -->
                             <div class="flex-none" v-if="bg_color == 'alert-error'">
                                 <button class="btn btn-sm">Retry</button>
                             </div>
                         </div>
-
                         <!-- Login button -->
                         <div v-else class="mt-8">
                             <button role="button"
@@ -179,6 +178,49 @@ export default {
     },
     methods: {
         ...mapActions(useUserStore, ['continueWithGoogle', 'signInWithEmail', 'signOutUser']),
+        async signInWithGoogle() {
+            try {
+                this.show_alert = true
+                this.disable_submission = true
+                await this.continueWithGoogle()
+                this.loggedIn = true
+                this.alert_msg = 'Logged in successfully'
+                this.bg_color = 'alert-success'
+                this.$router.push({ name: 'home' })
+            } catch (error) {
+                console.log(error.code)
+                if (error.code === 'auth/user-not-found') {
+                    this.alert_msg = "Account doesn't exist"
+                } else {
+                    this.alert_msg = 'There was an unexpected error. Please try again.'
+                }
+                this.bg_color = 'alert-error'
+                this.disable_submission = false
+            }
+        },
+        async loginWithEmail(values) {
+            try {
+                this.show_alert = true
+                this.disable_submission = true
+                this.alert_msg = 'Logging you in'
+                this.bg_color = 'alert-info'
+                await this.signInWithEmail(values)
+                this.loggedIn = true
+                this.alert_msg = 'Logged in successfully'
+                this.bg_color = 'alert-success'
+                this.$router.push({ name: 'home' })
+            } catch (error) {
+                console.log(error.code)
+                if (error.code === 'auth/invalid-login-credentials' || error.code === 'auth/wrong-password') {
+                    this.alert_msg = "Invalid credentials"
+                }
+                else {
+                    this.alert_msg = 'There was an unexpected error. Please try again.'
+                }
+                this.bg_color = 'alert-error'
+                this.disable_submission = false
+            }
+        }
     },
     beforeRouteEnter(to, from, next) {
         const store = useUserStore()

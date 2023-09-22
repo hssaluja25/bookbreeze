@@ -28,27 +28,6 @@
                         </svg>
                         <p class="text-base font-medium ml-4 text-gray-700">Continue with Google</p>
                     </button>
-                    <!-- <button
-              :disabled="show_alert"
-              aria-label="Continue with github"
-              role="button"
-              class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 p-3 border rounded-lg border-gray-700 flex items-center w-full mt-4 hover:bg-gray-100"
-            >
-              <svg
-                width="21"
-                height="20"
-                viewBox="0 0 21 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.1543 0C4.6293 0 0.154298 4.475 0.154298 10C0.153164 12.0993 0.813112 14.1456 2.04051 15.8487C3.26792 17.5517 5.00044 18.8251 6.9923 19.488C7.4923 19.575 7.6793 19.275 7.6793 19.012C7.6793 18.775 7.6663 17.988 7.6663 17.15C5.1543 17.613 4.5043 16.538 4.3043 15.975C4.1913 15.687 3.7043 14.8 3.2793 14.562C2.9293 14.375 2.4293 13.912 3.2663 13.9C4.0543 13.887 4.6163 14.625 4.8043 14.925C5.7043 16.437 7.1423 16.012 7.7163 15.75C7.8043 15.1 8.0663 14.663 8.3543 14.413C6.1293 14.163 3.8043 13.3 3.8043 9.475C3.8043 8.387 4.1913 7.488 4.8293 6.787C4.7293 6.537 4.3793 5.512 4.9293 4.137C4.9293 4.137 5.7663 3.875 7.6793 5.163C8.49336 4.93706 9.33447 4.82334 10.1793 4.825C11.0293 4.825 11.8793 4.937 12.6793 5.162C14.5913 3.862 15.4293 4.138 15.4293 4.138C15.9793 5.513 15.6293 6.538 15.5293 6.788C16.1663 7.488 16.5543 8.375 16.5543 9.475C16.5543 13.313 14.2173 14.163 11.9923 14.413C12.3543 14.725 12.6673 15.325 12.6673 16.263C12.6673 17.6 12.6543 18.675 12.6543 19.013C12.6543 19.275 12.8423 19.587 13.3423 19.487C15.3273 18.8168 17.0522 17.541 18.2742 15.8392C19.4962 14.1373 20.1537 12.0951 20.1543 10C20.1543 4.475 15.6793 0 10.1543 0Z"
-                  fill="#333333"
-                />
-              </svg>
-  
-              <p class="text-base font-medium ml-4 text-gray-700">Continue with Github</p>
-            </button> -->
                     <div class="w-full flex items-center justify-between py-5">
                         <hr class="w-full bg-gray-400" />
                         <p class="text-base font-medium leading-4 px-2.5 text-gray-500">OR</p>
@@ -139,26 +118,29 @@
                             <ErrorMessage class="text-red-600" name="confirm"></ErrorMessage>
                         </div>
                         <!-- Alert box -->
-                        <div v-if="show_alert" class="alert shadow-lg mt-8" :class="bg_color">
-                            <div>
+                        <div v-if="show_alert" class="alert shadow-lg mt-3 col-span-3 sm:flex sm:items-center sm:gap-4"
+                            :class="bg_color">
+                            <div style="display: flex; align-items: center">
                                 <svg v-if="bg_color === 'alert-info'" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6">
+                                    viewBox="0 0 24 24" style="display: inline-block"
+                                    class="stroke-current flex-shrink-0 w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <svg v-else-if="bg_color === 'alert-success'" xmlns="http://www.w3.org/2000/svg"
-                                    class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                                    class="stroke-current flex-shrink-0 h-6 w-6" style="display: inline-block" fill="none"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <svg v-else xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6"
-                                    fill="none" viewBox="0 0 24 24">
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" style="display: inline-block"
+                                    class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
-                                <span>{{ alert_msg }}</span>
+                                <span class="ml-3" style="display: inline-block">{{ alert_msg }}</span>
                             </div>
                             <!-- Retry button -->
                             <div class="flex-none" v-if="bg_color == 'alert-error'">
@@ -201,7 +183,6 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia'
 import useUserStore from '@/stores/user.js'
-// import { addToFirestore } from '@/includes/firestore.js'
 
 export default {
     name: 'RegistrationView',
@@ -226,40 +207,38 @@ export default {
     },
     methods: {
         ...mapActions(useUserStore, ['continueWithGoogle', 'createUserWithEmail']),
-        // async registerWithGoogle() {
-        //     try {
-        //         this.show_alert = true
-        //         this.disable_submission = true
-        //         // const docId = await this.continueWithGoogle()
-        //         // await addToFirestore(this.role, docId)
-        //         this.loggedIn = true
-        //         this.alert_msg = 'Account created successfully'
-        //         this.bg_color = 'alert-success'
-        //         this.$router.push({ name: 'home' })
-        //     } catch (error) {
-        //         console.log(error)
-        //         this.alert_msg = 'There was an unexpected error. Please try again.'
-        //         this.bg_color = 'alert-error'
-        //         this.disable_submission = false
-        //     }
-        // },
-        // async createWithEmail(values) {
-        //     try {
-        //         this.show_alert = true
-        //         this.disable_submission = true
-        //         // const docId = await this.createUserWithEmail(values)
-        //         // await addToFirestore(this.role, docId)
-        //         this.loggedIn = true
-        //         this.alert_msg = 'Account created successfully'
-        //         this.bg_color = 'alert-success'
-        //         this.$router.push({ name: 'home' })
-        //     } catch (error) {
-        //         console.log(error)
-        //         this.alert_msg = 'There was an unexpected error. Please try again.'
-        //         this.bg_color = 'alert-error'
-        //         this.disable_submission = false
-        //     }
-        // }
+        async registerWithGoogle() {
+            try {
+                this.show_alert = true
+                this.disable_submission = true
+                await this.continueWithGoogle()
+                this.loggedIn = true
+                this.alert_msg = 'Account created successfully'
+                this.bg_color = 'alert-success'
+                this.$router.push({ name: 'home' })
+            } catch (error) {
+                console.log(error)
+                this.alert_msg = 'There was an unexpected error. Please try again.'
+                this.bg_color = 'alert-error'
+                this.disable_submission = false
+            }
+        },
+        async createWithEmail(values) {
+            try {
+                this.show_alert = true
+                this.disable_submission = true
+                await this.createUserWithEmail(values)
+                this.loggedIn = true
+                this.alert_msg = 'Account created successfully'
+                this.bg_color = 'alert-success'
+                this.$router.push({ name: 'home' })
+            } catch (error) {
+                console.log(error)
+                this.alert_msg = 'There was an unexpected error. Please try again.'
+                this.bg_color = 'alert-error'
+                this.disable_submission = false
+            }
+        }
     }
 }
 </script>

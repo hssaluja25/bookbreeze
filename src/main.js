@@ -1,17 +1,20 @@
 import './assets/main.css'
 import VeeValidatePlugin from './includes/validation.js'
 
+import { auth } from '@/includes/firebase.config.js'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
-
-app.use(createPinia())
-app.use(router)
-// This would run the install method in our plugin
-app.use(VeeValidatePlugin)
-
-app.mount('#app')
+let app = null;
+auth.onAuthStateChanged(() => {
+    if (!app) {
+        app = createApp(App)
+        app.use(VeeValidatePlugin)
+        app.use(createPinia())
+        app.use(router)
+        app.mount('#app')
+    }
+})
