@@ -1,7 +1,10 @@
 <template>
     <div class="navbar bg-base-100">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">BookBreeze</a>
+            <a class="btn btn-ghost normal-case text-xl">
+                <img src="@/assets/logo.png" alt="logo" width="30" height="30">
+                BookBreeze
+            </a>
         </div>
         <div v-if="showLoginButton" class="flex-none">
             <ul class="menu menu-horizontal px-1">
