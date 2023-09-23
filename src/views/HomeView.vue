@@ -1,19 +1,80 @@
-<template>
-  <nav-bar></nav-bar>
+<!-- Drawer Structure
 
-  main content here
-  <app-footer></app-footer>
+  .drawer // The root container
+  ├── .drawer-toggle // A hidden checkbox to toggle the visibility of the sidebar
+  ├── .drawer-content // All your page content goes here
+  │    ├── // navbar
+  │    ├── // content
+  │    └── // footer
+  └── .drawer-side // Sidebar wrapper
+       ├── .drawer-overlay // A dark overlay that covers the whole page when the drawer is open
+       └── // Sidebar content (menu or anything)
+
+-->
+
+<template>
+  <div class="drawer">
+
+    <!-- Invisible checkbox to toggle the drawer -->
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+
+    <!-- Main Page Content -->
+    <div class="drawer-content">
+      <nav-bar></nav-bar>
+
+      <main>
+        <div class="-mt-10 flex justify-center" style="font-family: melancholight; font-size: 96px;">Trending Books</div>
+        <div class="flex justify-evenly mb-12 mt-5">
+          <!-- Should open sidebar -->
+          <label for="my-drawer" class="btn btn-outline drawer-button">
+            <font-awesome-icon :icon="['fas', 'filter']" />
+            All Filters
+          </label>
+          <select class="select select-bordered border-black w-full max-w-xs">
+            <option disabled selected>Sort by: Relevancy</option>
+            <option>Relevancy</option>
+            <option>Newest first</option>
+            <option>Top Customer Reviews</option>
+          </select>
+        </div>
+
+        <!-- Pass row cards (info about 4 books per row-component) -->
+        <row-component></row-component>
+        <row-component></row-component>
+        <row-component></row-component>
+        <row-component></row-component>
+        <pagination-component></pagination-component>
+      </main>
+
+      <app-footer class="mt-10"></app-footer>
+    </div>
+
+    <!-- Drawer Content -->
+    <div class="drawer-side">
+      <label for="my-drawer" class="drawer-overlay"></label>
+      <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+        <!-- Sidebar content here -->
+        <li><a>Sidebar Item 1</a></li>
+        <li><a>Sidebar Item 2</a></li>
+
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
 import NavBar from '@/components/AppHeader.vue'
+import RowComponent from '@/components/RowComponent.vue'
+import PaginationComponent from '@/components/PaginationComponent.vue'
 import AppFooter from '@/components/AppFooter.vue'
 
 export default {
   name: 'HomeView',
   components: {
     NavBar,
-    AppFooter
+    AppFooter,
+    RowComponent,
+    PaginationComponent
   }
 }
 </script>

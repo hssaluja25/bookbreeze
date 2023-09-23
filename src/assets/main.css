@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: melancholight;
+  src: url('@/assets/fonts/Melancholight.ttf');
+}
+@font-face {
+  font-family: melancholightitalic;
+  src: url('@/assets/fonts/Melancholight-Italic.ttf');
+}
