@@ -90,6 +90,8 @@ export default {
     try {
       const URL = import.meta.env.VITE_NYTIMES_URL;
       const API_KEY = import.meta.env.VITE_NYTIMES_API_KEY;
+      console.log(URL);
+      console.log(API_KEY);
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
