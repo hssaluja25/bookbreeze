@@ -38,11 +38,12 @@
           </select>
         </div>
 
-        <!-- Pass row cards (info about 4 books per row-component) -->
-        <row-component></row-component>
-        <row-component></row-component>
-        <row-component></row-component>
-        <row-component></row-component>
+        <!-- v-if is necessary because row-component's DOM is made before the property actually contains value. -->
+        <row-component v-if="firstRowCard" :rowCards="firstRowCard"></row-component>
+        <row-component v-if="secondRowCard" :rowCards="secondRowCard"></row-component>
+        <row-component v-if="thirdRowCard" :rowCards="thirdRowCard"></row-component>
+        <row-component v-if="fourthRowCard" :rowCards="fourthRowCard"></row-component>
+        <row-component v-if="fifthRowCard" :rowCards="fifthRowCard"></row-component>
         <pagination-component></pagination-component>
       </main>
 
@@ -70,11 +71,49 @@ import AppFooter from '@/components/AppFooter.vue'
 
 export default {
   name: 'HomeView',
+  data() {
+    return {
+      firstRowCard: null,
+      secondRowCard: null,
+      thirdRowCard: null,
+      fourthRowCard: null,
+      fifthRowCard: null,
+    }
+  },
   components: {
     NavBar,
     AppFooter,
     RowComponent,
     PaginationComponent
+  },
+  async created() {
+    try {
+      const URL = import.meta.env.VITE_NYTIMES_URL;
+      const API_KEY = import.meta.env.VITE_NYTIMES_API_KEY;
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      const response = await fetch(`${URL}/lists/best-sellers/history.json?api-key=${API_KEY}`, requestOptions);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const result = await response.json();
+      const allBooks = result['results']
+      const firstArray = allBooks.slice(0, 4)
+      this.firstRowCard = firstArray
+      const secondArray = allBooks.slice(4, 8)
+      this.secondRowCard = secondArray
+      const thirdArray = allBooks.slice(8, 12)
+      this.thirdRowCard = thirdArray
+      const fourthArray = allBooks.slice(12, 16)
+      this.fourthRowCard = fourthArray
+      const fifthArray = allBooks.slice(16, 20)
+      this.fifthRowCard = fifthArray
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 }
 </script>

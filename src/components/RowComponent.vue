@@ -1,21 +1,7 @@
 <template>
     <div class="flex flex-wrap space-x-4 justify-center mb-4">
-        <card-component bookTitle="A Game of Thrones" price="400"
-            description="A Game of Thrones” by George R.R. Martin tells the tale of various clashing households and their quest to conquer control over the seven kingdoms."
-            author="George R.R. Martin" available="100"
-            imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6a6e6e84844273.5d69685326acc.jpg"></card-component>
-        <card-component bookTitle="A Game of Thrones" price="400"
-            description="A Game of Thrones” by George R.R. Martin tells the tale of various clashing households and their quest to conquer control over the seven kingdoms."
-            author="George R.R. Martin" available="100"
-            imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6a6e6e84844273.5d69685326acc.jpg"></card-component>
-        <card-component bookTitle="A Game of Thrones" price="400"
-            description="A Game of Thrones” by George R.R. Martin tells the tale of various clashing households and their quest to conquer control over the seven kingdoms."
-            author="George R.R. Martin" available="100"
-            imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6a6e6e84844273.5d69685326acc.jpg"></card-component>
-        <card-component bookTitle="A Game of Thrones" price="400"
-            description="A Game of Thrones” by George R.R. Martin tells the tale of various clashing households and their quest to conquer control over the seven kingdoms."
-            author="George R.R. Martin" available="100"
-            imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6a6e6e84844273.5d69685326acc.jpg"></card-component>
+        <card-component v-for="(obj, i) in rowCards" :key="i" :bookTitle="obj.title" :price="obj.price"
+            :description="obj.description" :author="obj.author" available="100" :imgSrc="images[i]"></card-component>
     </div>
 </template>
 
@@ -24,13 +10,45 @@ import CardComponent from '@/components/CardComponent.vue'
 
 export default {
     name: 'RowComponent',
-    props: {
-        rowCards: {
-            type: Array
-        }
-    },
+    props: ['rowCards'],
     components: {
         CardComponent
+    },
+    data() {
+        return {
+            // Just a random array which is initialized to sume numberss.
+            // Later we would set it to contain the image links of the 4 books in the row
+            images: [0, 1, 2, 3]
+        }
+    },
+    async created() {
+        // in each row, there are 4 books.
+        // so we make 4 API calls to fetch the cover of the book
+        for (let i = 0; i < 4; i++) {
+            try {
+                const requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+                const URL = import.meta.env.VITE_GOOGLE_BOOKS_URL;
+                const title = encodeURIComponent(this.rowCards[i].title)
+                const response = await fetch(`${URL}/volumes?q=${title}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error("Error fetching Google Books cover image")
+                }
+                const result = await response.json();
+                const imgLink = result['items'][0]['volumeInfo']['imageLinks']
+                let imgSrc = null;
+                if (typeof imgLink === 'undefined') {
+                    imgSrc = "book.jpg"
+                } else {
+                    imgSrc = imgLink['thumbnail']
+                }
+                this.images[i] = imgSrc
+            } catch (error) {
+                console.log('error', error);
+            }
+        }
     }
 }
 </script>

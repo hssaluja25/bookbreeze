@@ -14,14 +14,14 @@
             </div>
             <strong
                 class="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
-                {{ author }}
+                {{ authorName }}
             </strong>
             <strong
                 class="ml-2 rounded-full border border-green-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-green-600">
                 {{ available }} copies
             </strong>
             <p class="mt-2 block font-sans text-sm font-normal leading-normal text-gray-700 antialiased opacity-75">
-                {{ description }}
+                {{ descriptionHere }}
             </p>
         </div>
     </div>
@@ -30,6 +30,26 @@
 <script>
 export default {
     name: 'CardComponent',
-    props: ['bookTitle', 'price', 'description', 'author', 'imgSrc', 'available']
+    props: ['bookTitle', 'price', 'description', 'author', 'imgSrc', 'available'],
+    computed: {
+        // This returns the first 2 names in the author name.
+        // A longer name causes issues with the layout
+        authorName: function () {
+            const words = this.author.split(' ');
+            if (words.length >= 2) {
+                return words.slice(0, 2).join(' ');
+            } else {
+                return this.author;
+            }
+        },
+        // If no description is available, then we return so.
+        // Otherwise, there is just an empty space
+        descriptionHere: function () {
+            if (this.description === "" || this.description === null) {
+                return 'No description available'
+            }
+            return this.description
+        }
+    }
 }
 </script>
