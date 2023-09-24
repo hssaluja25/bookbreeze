@@ -78,6 +78,12 @@ export default {
       thirdRowCard: null,
       fourthRowCard: null,
       fifthRowCard: null,
+      URL: import.meta.env.VITE_NYTIMES_URL,
+      API_KEY: import.meta.env.VITE_NYTIMES_API_KEY,
+      requestOptions: {
+        method: 'GET',
+        redirect: 'follow'
+      }
     }
   },
   components: {
@@ -86,36 +92,57 @@ export default {
     RowComponent,
     PaginationComponent
   },
-  async created() {
-    try {
-      const URL = import.meta.env.VITE_NYTIMES_URL;
-      const API_KEY = import.meta.env.VITE_NYTIMES_API_KEY;
-      console.log(URL);
-      console.log(API_KEY);
-      var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-      };
-
-      const response = await fetch(`${URL}/lists/best-sellers/history.json?api-key=${API_KEY}`, requestOptions);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+  methods: {
+    async makeApiCall() {
+      const crtPage = parseInt(this.$route.query.page)
+      console.log(`crtPage = ${crtPage}`);
+      let offset = 0;
+      if (isNaN(crtPage) || crtPage === 1) {
+        offset = 0;
+      } else {
+        offset = 20 * (crtPage - 1)
       }
-      const result = await response.json();
-      const allBooks = result['results']
-      const firstArray = allBooks.slice(0, 4)
-      this.firstRowCard = firstArray
-      const secondArray = allBooks.slice(4, 8)
-      this.secondRowCard = secondArray
-      const thirdArray = allBooks.slice(8, 12)
-      this.thirdRowCard = thirdArray
-      const fourthArray = allBooks.slice(12, 16)
-      this.fourthRowCard = fourthArray
-      const fifthArray = allBooks.slice(16, 20)
-      this.fifthRowCard = fifthArray
-    } catch (error) {
-      console.log('error', error);
+      console.log(`offset = ${offset}`);
+      const fetchUrl = `${this.URL}/lists/best-sellers/history.json?api-key=${this.API_KEY}&offset=${offset}`
+      console.log(fetchUrl);
+      try {
+        const response = await fetch(fetchUrl, this.requestOptions);
+        if (!response.ok) {
+          if (response.status === 429) {
+            console.log("Too many requests. Please wait a moment.");
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        }
+        const result = await response.json();
+        const allBooks = result['results']
+        const firstArray = allBooks.slice(0, 4)
+        this.firstRowCard = firstArray
+        const secondArray = allBooks.slice(4, 8)
+        this.secondRowCard = secondArray
+        const thirdArray = allBooks.slice(8, 12)
+        this.thirdRowCard = thirdArray
+        const fourthArray = allBooks.slice(12, 16)
+        this.fourthRowCard = fourthArray
+        const fifthArray = allBooks.slice(16, 20)
+        this.fifthRowCard = fifthArray
+      } catch (error) {
+        console.log('error', error);
+      }
     }
+  },
+  watch: {
+    async $route() {
+      // Using the `page` route parameter, it sets the offset
+      // parameter for the API call and makes the API call
+      await this.makeApiCall();
+    },
+
+  },
+  async created() {
+    // Using the `page` route parameter, it sets the offset
+    // parameter for the API call and makes the API call
+    await this.makeApiCall();
   }
 }
 </script>
