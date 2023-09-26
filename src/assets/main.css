@@ -10,3 +10,7 @@
   font-family: melancholightitalic;
   src: url('@/assets/fonts/Melancholight-Italic.ttf');
 }
+@font-face {
+  font-family: poppins;
+  src: url('@/assets/fonts/Poppins-Regular.ttf');
+}

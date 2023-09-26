@@ -1,6 +1,6 @@
 <template>
     <body>
-        <div class="bg-indigo-50 min-h-screen">
+        <div class="bg-indigo-50 flex items-center h-screen">
             <div
                 class="xl:px-20 md:px-10 sm:px-6 px-4 md:py-12 py-9 2xl:mx-auto 2xl:container md:flex items-center justify-center">
                 <!-- The Sign Up Box -->

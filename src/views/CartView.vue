@@ -1,6 +1,6 @@
 <template>
     <nav-bar></nav-bar>
-    <div class="pt-12" v-if="showLobster || showEggs || showVeal">
+    <div class="bg-[#EEEEEE] pt-12" v-if="showLobster || showEggs || showVeal">
         <h1 class="-mt-7 mb-12 text-center text-4xl font-bold">Cart Items</h1>
         <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
             <!-- Left section containing items -->

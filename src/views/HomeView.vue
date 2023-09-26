@@ -19,7 +19,7 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
 
     <!-- Main Page Content -->
-    <div class="drawer-content">
+    <div class="drawer-content bg-[#eeeeee]">
       <nav-bar></nav-bar>
 
       <main>
@@ -30,7 +30,7 @@
             <font-awesome-icon :icon="['fas', 'filter']" />
             All Filters
           </label>
-          <select class="select select-bordered border-black w-full max-w-xs">
+          <select class="select select-bordered border-black w-full max-w-xs bg-transparent">
             <option disabled selected>Sort by: Relevancy</option>
             <option>Relevancy</option>
             <option>Newest first</option>
@@ -53,18 +53,14 @@
     <!-- Drawer Content -->
     <div class="drawer-side">
       <label for="my-drawer" class="drawer-overlay"></label>
-      <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-        <!-- Sidebar content here -->
-        <li><a>Sidebar Item 1</a></li>
-        <li><a>Sidebar Item 2</a></li>
-
-      </ul>
+      <drawer-component></drawer-component>
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/AppHeader.vue'
+import DrawerComponent from '@/components/DrawerComponent.vue'
 import RowComponent from '@/components/RowComponent.vue'
 import PaginationComponent from '@/components/PaginationComponent.vue'
 import AppFooter from '@/components/AppFooter.vue'
@@ -88,6 +84,7 @@ export default {
   },
   components: {
     NavBar,
+    DrawerComponent,
     AppFooter,
     RowComponent,
     PaginationComponent

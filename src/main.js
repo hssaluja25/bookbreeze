@@ -9,7 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCartShopping, faFilter } from '@fortawesome/free-solid-svg-icons'
 import App from './App.vue'
 import router from './router'
-
+import VueTailwindDatepicker from "vue-tailwind-datepicker";
 let app = null;
 auth.onAuthStateChanged(() => {
     if (!app) {
@@ -17,6 +17,7 @@ auth.onAuthStateChanged(() => {
         app = createApp(App)
         app.component('font-awesome-icon', FontAwesomeIcon)
         app.use(VeeValidatePlugin)
+        app.use(VueTailwindDatepicker);
         app.use(createPinia())
         app.use(router)
         app.mount('#app')

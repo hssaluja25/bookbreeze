@@ -1,8 +1,8 @@
 <template>
     <div class="join justify-center flex mt-10">
-        <button class="join-item btn" @click.prevent="goToPreviousPage">«</button>
-        <button class="join-item btn">Page {{ crtPage }}</button>
-        <button class="join-item btn" @click.prevent="goToNextPage">»</button>
+        <button class="join-item btn bg-[#222831] hover:bg-black text-white" @click.prevent="goToPreviousPage">«</button>
+        <button class="join-item btn bg-[#222831] hover:bg-black text-white">Page {{ crtPage }}</button>
+        <button class="join-item btn bg-[#222831] hover:bg-black text-white" @click.prevent="goToNextPage">»</button>
     </div>
 </template>
 
